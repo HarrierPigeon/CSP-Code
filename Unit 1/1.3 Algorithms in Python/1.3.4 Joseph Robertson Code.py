@@ -159,5 +159,5 @@ def quiz_decimal(low,high,decimalplacestoguess = 2, DEBUG = True, EXTENDED_DEBUG
 		print("lower bound:",saniLow,"Upper Bound",saniHigh,"Secret:",secretDec)
 		print("Range:",(saniHigh-saniLow))
 	elif DEBUG = True:
-		print("")
+		print("Guess:",saniInput,"Secret:",secretDec)
 	
