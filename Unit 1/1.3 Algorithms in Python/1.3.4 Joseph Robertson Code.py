@@ -97,7 +97,7 @@ def guess_once():
 
   
 
-def randomDecimalRange(low,high,numberofdecimalpoints, DEBUG = True, EXTENDED_DEBUG = False):
+def randomDecimalInRange(low,high,numberofdecimalpoints, DEBUG = True, EXTENDED_DEBUG = False):
 
 	'''low as Decimal, high as Decimal ,numberofdecimalpoints as integer, optional DEBUG as boolean default = True, optional EXTENDED_DEGUG as boolean, default = False'''
 	saniLow = pd.to_numeric(low)
@@ -118,27 +118,46 @@ def randomDecimalRange(low,high,numberofdecimalpoints, DEBUG = True, EXTENDED_DE
 	elif DEBUG == True:
 		print(randDec)
 	return randDec
+ 
 
-  
-
-  
-
-def quiz_decimal(low,high,decimalplacestoguess = 2, DEBUG = True, EXTENDED_DEBUG = False):
-
+def quiz_decimal(low,high,decimalplacestoguess = 2, DEBUG = True, EXTENDED_DEBUG = False, CHEATER_MODE = False):
 	'''
-
-	quiz_decimal(low,high,decimalplacestoguess = 2, DEBUG = True, EXTENDED_DEBUG = False)
-	lowest bound, highest bound, number of decimal places to guess, give debugging information, give way too much information.
+	quiz_decimal(low,high,decimalplacestoguess = 2, DEBUG = True, EXTENDED_DEBUG = False, CHEATER_MODE = False)
+	lowest bound, highest bound, number of decimal places to guess, give debugging information, give way too much information, gives answer before prompt.
 	dec, dec, dec, bool, bool.
-	
 	'''
+	#Sanitizing inputs, because I don't like it when people break my stuff.
 
 	saniLow = pd.to_numeric(low)
-
 	saniHigh = pd.to_numeric(high)
+	saniDigits = int(pd.to_numeric(decimalplacestoguess))
 
-	saniToGuess = int(pd.to_numeric(decimalplacestoguess))
-
-	randomDecimalRange(saniLow,saniHigh,decimalplacestoguess,DEBUG,EXTENDED_DEBUG)
-
+	secretDec = randomDecimalInRange(saniLow,saniHigh,saniDigits,DEBUG,EXTENDED_DEBUG) #Is a decimal / float.
 	### Add guessing code.
+
+	# *Definitely* just for debugging. :)
+	if CHEATER_MODE == True:
+		print(secretDec)
+
+	unSaniInput = raw_input('Guess: ')
+	saniInput = pd.to_numeric(unSaniInput)
+
+	if (saniInput == secretDec):
+		print("You won!")
+		return True
+	else:
+		highorlow = ""
+		if (saniInput > secretDec):
+			highorlow = "high."
+		else:
+			highorlow = "low."
+		print("too",highorlow,"The number was",secretDec,"and you guessed",saniInput)
+		return False
+
+	### DEBUGGING TOOLS
+	if EXTENDED_DEBUG = True:
+		print("lower bound:",saniLow,"Upper Bound",saniHigh,"Secret:",secretDec)
+		print("Range:",(saniHigh-saniLow))
+	elif DEBUG = True:
+		print("")
+	
